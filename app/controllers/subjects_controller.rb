@@ -12,10 +12,15 @@ class SubjectsController < ApplicationController
   def show
     @subject = Subject.find(params[:id])
   end
+
+  def new
+    @subject = Subject.new
+  end 
   
   def create
     @subject = Subject.new(params[:subject])
     if @subject.save
+      flash[:notice] = "Subject created."
       redirect_to(:action => 'list')
     else
       render('new')
@@ -29,6 +34,7 @@ class SubjectsController < ApplicationController
   def update
     @subject = Subject.find(params[:id])
     if @subject.update_attributes(params[:subject])
+      flash[:notice] = "Subject updated."
       redirect_to(:action => 'show', :id => @subject.id)
     else
       render('edit')
@@ -41,6 +47,7 @@ class SubjectsController < ApplicationController
   
   def destroy
     Subject.find(params[:id]).destroy
+    flash[:notice] = "Subject destroyed."
     redirect_to(:action => 'list')
   end
   

@@ -13,9 +13,14 @@ class PagesController < ApplicationController
     @page = Page.find(params[:id])
   end
   
+  def new
+    @page = Page.new
+  end
+  
   def create
     @page = Page.new(params[:page])
     if @page.save
+      flash[:notice] = "Page created."
       redirect_to(:action => 'list')
     else
       render('new')
@@ -29,6 +34,7 @@ class PagesController < ApplicationController
   def update
     @page = Page.find(params[:id])
     if @page.update_attributes(params[:page])
+      flash[:notice] = "Page updated."
       redirect_to(:action => 'show', :id => @page.id)
     else
       render('edit')
@@ -41,6 +47,7 @@ class PagesController < ApplicationController
   
   def destroy
     Page.find(params[:id]).destroy
+    flash[:notice] = "Page destroyed."
     redirect_to(:action => 'list')
   end
   

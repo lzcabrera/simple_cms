@@ -13,9 +13,14 @@ class SectionsController < ApplicationController
     @section = Section.find(params[:id])
   end
   
+  def new
+    @section = Section.new
+  end
+  
   def create
     @section = Section.new(params[:section])
     if @section.save
+      flash[:notice] = "Section created."
       redirect_to(:action => 'list')
     else
       render('new')
@@ -29,6 +34,7 @@ class SectionsController < ApplicationController
   def update
     @section = Section.find(params[:id])
     if @section.update_attributes(params[:section])
+      flash[:notice] = "Section updated."
       redirect_to(:action => 'show', :id => @section.id)
     else
       render('edit')
@@ -41,6 +47,7 @@ class SectionsController < ApplicationController
   
   def destroy
     Section.find(params[:id]).destroy
+    flash[:notice] = "Section destroyed."
     redirect_to(:action => 'list')
   end
   
