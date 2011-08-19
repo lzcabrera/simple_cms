@@ -1,7 +1,10 @@
 class DemoController < ApplicationController
+  
+  layout 'admin'
+  
   def index
     # render('hello')
-    redirect_to(:action => 'other_hello')
+    # redirect_to(:action => 'other_hello')
   end
   
   def hello
@@ -10,6 +13,9 @@ class DemoController < ApplicationController
   
   def other_hello
     render(:text => 'Hello Everyone')
+  end
+  
+  def javascript
   end
 
 end
