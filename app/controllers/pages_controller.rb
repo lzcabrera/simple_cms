@@ -17,6 +17,7 @@ class PagesController < ApplicationController
   
   def new
     @page = Page.new
+    @page_count = Page.count+1
   #  @page = Page.new(:subject_id => @subject.id)
   #  @page_count = @subject.pages.size + 1
   #  @subjects = Subject.order('position ASC') 
