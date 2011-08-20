@@ -1,3 +1,5 @@
+require 'digest/sha1'
+
 class AdminUser < ActiveRecord::Base
   
   # To configure a different table name
@@ -30,5 +32,9 @@ class AdminUser < ActiveRecord::Base
                     
   
   scope :named, lambda {|first,last| where([:first_name => first, :last_name => last])}
+  
+  def self.hash(password="")
+    Digest::SHA1.hexdigest(password)
+  end
   
 end
