@@ -1,7 +1,10 @@
 SimpleCms::Application.routes.draw do
-  
+
   # point root of our application to an specific controller and action
   root :to => "demo#index"
+  
+  # alternate string to get to admin menu
+  match 'admin', :to => 'access#menu'
   
   # simple string matching route (matches the string)
   # match "demo/index", :to => "demo#index"
