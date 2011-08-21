@@ -1,5 +1,17 @@
 SimpleCms::Application.routes.draw do
 
+  get "admin_user/index"
+
+  get "admin_user/list"
+
+  get "admin_user/new"
+
+  get "admin_user/edit"
+
+  get "admin_user/update"
+
+  get "admin_user/delete"
+
   # point root of our application to an specific controller and action
   root :to => "demo#index"
   
