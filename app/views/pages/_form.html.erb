@@ -3,8 +3,8 @@
 
 <table summary="Page form fields">
   <tr>
-    <th><%= f.label(:subject_id, "Subject ID") %></th>
-    <td><%= f.text_field(:subject_id) %></td>
+    <th><%= f.label(:subject_id, "Subject") %></th>
+    <td><%= f.select(:subject_id, @subjects.collect {|s| [s.name, s.id]}) %></td>
   </tr>
   <tr>
     <th><%= f.label(:name) %></th>
