@@ -1,7 +1,7 @@
 class PagesController < ApplicationController
-
+  
   layout 'admin'
-
+  
   before_filter :confirm_logged_in
   before_filter :find_subject
   
@@ -11,7 +11,7 @@ class PagesController < ApplicationController
   end
   
   def list
-    @pages = Page.sorted.where(:subject_id => @subject.id)
+    @pages = Page.order("pages.position ASC").where(:subject_id => @subject.id)
   end
   
   def show
@@ -21,23 +21,16 @@ class PagesController < ApplicationController
   def new
     @page = Page.new(:subject_id => @subject.id)
     @page_count = @subject.pages.size + 1
-    @subjects = Subject.order('position ASC')
+    @subjects = Subject.order('position ASC') 
   end
   
   def create
-    new_position = params[:page].delete(:position)
-    # Instantiate a new object using form parameters
     @page = Page.new(params[:page])
-    # Save the object
     if @page.save
-      @page.move_to_position(new_position)
-      # If save succeeds, redirect to the list action
       flash[:notice] = "Page created."
       redirect_to(:action => 'list', :subject_id => @page.subject_id)
     else
-      # If save fails, redisplay the form so user can fix problems
       @page_count = @subject.pages.size + 1
-      @subjects = Subject.order('position ASC')
       render('new')
     end
   end
@@ -45,23 +38,16 @@ class PagesController < ApplicationController
   def edit
     @page = Page.find(params[:id])
     @page_count = @subject.pages.size
-    @subjects = Subject.order('position ASC')
+    @subjects = Subject.order('position ASC') 
   end
   
   def update
-    new_position = params[:page].delete(:position)
-    # Find object using form parameters
     @page = Page.find(params[:id])
-    # Update the object
     if @page.update_attributes(params[:page])
-      @page.move_to_position(new_position)
-      # If update succeeds, redirect to the list action
       flash[:notice] = "Page updated."
       redirect_to(:action => 'show', :id => @page.id, :subject_id => @page.subject_id)
     else
-      # If save fails, redisplay the form so user can fix problems
-      @page_count = @subject.pages.size
-      @subjects = Subject.order('position ASC')
+      @page_count = @subject.pages.size 
       render('edit')
     end
   end
@@ -71,9 +57,7 @@ class PagesController < ApplicationController
   end
   
   def destroy
-    page = Page.find(params[:id])
-    page.move_to_position(nil)
-    page.destroy
+    Page.find(params[:id]).destroy
     flash[:notice] = "Page destroyed."
     redirect_to(:action => 'list', :subject_id => @subject.id)
   end
@@ -85,5 +69,5 @@ class PagesController < ApplicationController
       @subject = Subject.find_by_id(params[:subject_id])
     end
   end
-    
+  
 end

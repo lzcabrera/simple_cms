@@ -1,10 +1,9 @@
 <html>
-  <head>
-    <title>Simple CMS</title>
-  </head>
-  <body>
-
-  <%= yield %>
-
-  </body>
+	<head>
+		<title>Simple CMS</title>
+		<%= csrf_meta_tag %>
+	</head>
+	<body>
+		<%= yield %>
+	</body>
 </html>

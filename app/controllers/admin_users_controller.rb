@@ -1,7 +1,7 @@
 class AdminUsersController < ApplicationController
   
   layout 'admin'
-
+  
   before_filter :confirm_logged_in
   
   def index
@@ -26,11 +26,12 @@ class AdminUsersController < ApplicationController
       render("new")
     end
   end
+  
 
   def edit
     @admin_user = AdminUser.find(params[:id])
   end
-  
+
   def update
     @admin_user = AdminUser.find(params[:id])
     if @admin_user.update_attributes(params[:admin_user])
@@ -40,11 +41,11 @@ class AdminUsersController < ApplicationController
       render("edit")
     end
   end
-
+  
   def delete
     @admin_user = AdminUser.find(params[:id])
   end
-
+  
   def destroy
     AdminUser.find(params[:id]).destroy
     flash[:notice] = "Admin user destroyed."

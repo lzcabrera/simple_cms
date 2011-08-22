@@ -1,9 +1,8 @@
 class SectionsController < ApplicationController
-
+  
   layout 'admin'
   
   before_filter :confirm_logged_in
-  before_filter :find_page
   
   def index
     list
@@ -11,7 +10,7 @@ class SectionsController < ApplicationController
   end
   
   def list
-    @sections = Section.sorted.where(:page_id => @page.id)
+    @sections = Section.order("sections.position ASC")
   end
   
   def show
@@ -19,63 +18,45 @@ class SectionsController < ApplicationController
   end
   
   def new
-    @section = Section.new(:page_id => @page.id)
-    @section_count = @page.sections.size + 1
-    @pages = Page.order('position ASC')
+    @section = Section.new
+    @section_count = Section.count+1
   end
   
   def create
-    new_position = params[:section].delete(:position)
     @section = Section.new(params[:section])
     if @section.save
-      @section.move_to_position(new_position)
       flash[:notice] = "Section created."
-      redirect_to(:action => 'list', :page_id => @section.page_id)
+      redirect_to(:action => 'list')
     else
-      @section_count = @page.sections.size + 1
-      @pages = Page.order('position ASC')
+      @section_count = Section.count+1
       render('new')
     end
   end
   
   def edit
     @section = Section.find(params[:id])
-    @section_count = @page.sections.size
-    @pages = Page.order('position ASC')
+    @section_count = Section.count
   end
   
   def update
-    new_position = params[:section].delete(:position)
     @section = Section.find(params[:id])
     if @section.update_attributes(params[:section])
-      @section.move_to_position(new_position)
       flash[:notice] = "Section updated."
-      redirect_to(:action => 'show', :id => @section.id, :page_id => @section.page_id)
+      redirect_to(:action => 'show', :id => @section.id)
     else
-      @section_count = @page.sections.size
-      @pages = Page.order('position ASC')
+      @section_count = Section.count
       render('edit')
     end
   end
   
   def delete
     @section = Section.find(params[:id])
-  end
+  end 
   
   def destroy
-    section = Section.find(params[:id])
-    section.move_to_position(nil)
-    section.destroy
+    Section.find(params[:id]).destroy
     flash[:notice] = "Section destroyed."
-    redirect_to(:action => 'list', :page_id => @page.id)
-  end
-
-  private
-  
-  def find_page
-    if params[:page_id]
-      @page = Page.find_by_id(params[:page_id])
-    end
+    redirect_to(:action => 'list')
   end
   
 end
