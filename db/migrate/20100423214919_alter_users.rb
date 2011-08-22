@@ -1,4 +1,5 @@
 class AlterUsers < ActiveRecord::Migration
+
   def self.up
     rename_table("users", "admin_users")
     add_column("admin_users", "username", :string, :limit => 25)
@@ -17,4 +18,5 @@ class AlterUsers < ActiveRecord::Migration
     remove_column("admin_users", "username")
     rename_table("admin_users", "users")
   end
+
 end

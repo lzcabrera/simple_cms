@@ -1,22 +1,11 @@
 SimpleCms::Application.routes.draw do
 
-  get "admin_users/list"
-
-  get "admin_users/new"
-
-  get "admin_users/edit"
-
-  get "admin_users/delete"
-
-  # point root of our application to an specific controller and action
-  root :to => "demo#index"
+  root :to => "public#index"
   
-  # alternate string to get to admin menu
   match 'admin', :to => 'access#menu'
+  match 'show/:id', :to => 'public#show'
   
-  # simple string matching route (matches the string)
-  # match "demo/index", :to => "demo#index"
-  # get "demo/index"
+  #get "demo/index"
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
@@ -73,6 +62,5 @@ SimpleCms::Application.routes.draw do
 
   # This is a legacy wild controller route that's not recommended for RESTful applications.
   # Note: This route will make all actions in every controller accessible via GET requests.
-  # default routing - parses out the controller, action and id for itself
   match ':controller(/:action(/:id(.:format)))'
 end
